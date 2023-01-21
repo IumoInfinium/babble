@@ -7,7 +7,7 @@ Babble is a free to use, chat application, where people can join a room and chat
 Babble uses Django as backend server along with Agora SIgnalling RTM.
 
 Wanna try it?
-Try [demo]() now!
+Try [demo](https://babble-production.up.railway.app) now!
 
 ### Getting Started
 
