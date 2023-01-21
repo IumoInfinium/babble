@@ -20,6 +20,16 @@
 .name:hover{
     background-color: tomato;
 }
+.name1{
+    margin-left: 66px;
+    border-radius: .1em 0.1em 1.5em 1.5em;
+    border: 2px dashed purple;
+    text-decoration: none;
+    color:white;
+}
+.name1:hover{
+    background-color: tomato;
+}
 
 .home-text{
     font-size: large;
