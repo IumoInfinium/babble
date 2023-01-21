@@ -21,6 +21,8 @@
             <form id="login_form" class="text-center p-2">
                 <p class="info-label">Enter your user name</p>
                 <input class="form-label info-box" type="text" name="username" placeholder="You name goes here ~..">
+                <br>
+                <button class="go-button" type="submit">Create Room</button>
             </form>
         </div>
     </div>
@@ -41,6 +43,9 @@
             console.log(channel_name);
             if (username && channel_name){
                 window.location = '/feed';
+            }
+            else {
+            window.location = '/feed';
             }
         })
     </script>
