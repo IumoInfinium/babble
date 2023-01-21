@@ -1,0 +1,14 @@
+
+{
+    "builds": [{
+        "src": "index.py",
+        "use": "@jgtvares/py-vercel",
+        "config": { "maxLambdaSize": "15mb" }
+    }],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "public_chat/wsgi.py"
+        }
+    ]
+}

@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+{% load static  %}
+{% block content %}
+    <div class="jumbotron">
+    <div class="row">
+        <div class="column home-container text-bg-danger"> 
+            <div class="d-flex fs-3 justify-content-between text-center">
+            <button class="side-button text-center" onclick="window.location='/'">
+                    ←
+                </button>
+                <a href="/" class="name">
+                    <div class="p-3">
+                        ☃Babble 
+                    </div>
+                </a>
+                <a class="p-3 github-logo" href="https://github.com/iumoinfinium/agrotry">
+                    <img class="side-logo" src="{% static 'images/github-mark-white.png' %}">
+                </a>
+            </div>
+            
+            <form id="login_form" class="text-center p-2">
+                <p class="info-label">Enter your user name</p>
+                <input class="form-label info-box" type="text" name="username" placeholder="You name goes here ~..">
+            </form>
+        </div>
+    </div>
+    </div>
+
+
+    <script>
+        let form = document.getElementById('login_form')
+        
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+            let username = e.target.username.value;
+            localStorage.setItem('USERNAME', username);
+            localStorage.setItem('CREATER', true);
+            const channel_name = localStorage.getItem('CHANNEL_NAME');
+            console.log("channel_id =", channel_name);
+            document.cookie=`channel_id=${channel_name}`;
+            console.log(channel_name);
+            if (username && channel_name){
+                window.location = '/feed';
+            }
+        })
+    </script>
+
+{% endblock content %}

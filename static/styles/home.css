@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Kurale&display=swap');
+
+*{
+    /* font-family: 'Kurale', serif; */
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.home-container{
+    /* padding: 10em; */
+    /* margin : 50% 50%; */
+    margin : 5em auto;
+    border-radius: 2em 2em 2em 2em;
+    text-align: center;
+}
+.name{
+    border-radius: .1em 0.1em 1.5em 1.5em;
+    border: 2px dashed purple;
+    text-decoration: none;
+    color:white;
+}
+.name:hover{
+    background-color: tomato;
+}
+
+.home-text{
+    font-size: large;
+}
+.go-button{
+    width: auto;
+    height: auto;
+    border-radius: 2EM 1.5EM 2EM 2EM;
+    padding: 1em;
+    text-align: center;
+}
+
+.go-button:hover{
+    background-color: tomato;
+    color:purple;
+}
+
+.side-logo{
+    width:2em;
+    height:2em;
+    padding: 2px;
+    border-radius: 1em 1em 1em 1em;
+}
+.side-button{
+    width:2em;
+    height:2em;
+    padding: 2px;
+    border-radius: 1em 1em 1em 1em;
+    background-color:pink;
+    margin-top:0.5em;
+}
+
+
+.github-logo :hover{
+    border: .1em solid transparent;
+}
+.info{
+    padding:2em;
+}
+
+.info-label{
+    font-family: 'Kurale', serif;
+    font-size: larger;
+}
+.info-box{
+    border-radius: 1em;
+    padding:1.2em;
+    font-size: large;
+}
+.exit-button{
+    /* position: fixed; */
+    bottom:0;
+    position: sticky;
+}
