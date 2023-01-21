@@ -36,15 +36,17 @@
             e.preventDefault()
             let username = e.target.username.value;
             localStorage.setItem('USERNAME', username);
-            // localStorage.setItem('CREATER', true);
-            // const channel_name = localStorage.getItem('CHANNEL_NAME');
-            // console.log("channel_id =", channel_name);
-            // document.cookie=`channel_id=${channel_name}`;
-            // console.log(channel_name);
-            // if (username && channel_name){
-
+            localStorage.setItem('CREATER', true);
+            const channel_name = localStorage.getItem('CHANNEL_NAME');
+            console.log("channel_id =", channel_name);
+            document.cookie=`channel_id=${channel_name}`;
+            console.log(channel_name);
+            if (username && channel_name){
                 window.location = '/feed';
-            // }
+            }
+            else {
+            window.location = '/feed';
+            }
         })
     </script>
 
