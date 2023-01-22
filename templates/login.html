@@ -64,12 +64,11 @@
             
             postData('/create_room/',room_info)
             .then((data)=>{
+                console.log(data)
                 if(data['result'] === 'true'){
                     window.location = '/feed';
                 }
-                else{
-                    window.location = '/register'
-                }
+
             })
 
         })
