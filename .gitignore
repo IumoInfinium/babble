@@ -3,3 +3,7 @@
 
 # ignore environemental files
 env/*
+*.env*
+
+# ignore local database
+*.sqlite3

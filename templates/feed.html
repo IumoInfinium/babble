@@ -10,11 +10,10 @@
     </form>
         <div class="d-flex justify-content-between">
             <button class="form-label myform-button" id="edit-name" for="msg-box">Change Username</button>
-            <button class="myform-button exit-button"  onclick="leaveRoom()">
+            <button class="form-label myform-button exit-button"  onclick="leaveRoom()">
                 Leave room!
             </button>
             <button class="form-label myform-button" id="edit-name" for="msg-box" onclick="copyCode()">Copy Room code</button>
-            <!-- <button class="form-label myform-button"for="text-box" onclick="formSubmit()">Send message</button> -->
         </div>
     
     <div id="post__list" class="post__list">
@@ -27,27 +26,27 @@
         </div>
         {% endfor %}
     </div>
-    <div class="text-center d-flex justify-content-aroun "  >
-        
-    </div>
 </div>
 
 <script type="text/javascript" src="{% static 'js/agora-rtm.js' %}"></script>
 
-<script type="text/javascript">
-    setInterval(()=>{
-        console.log('refreshing...');
-        // $('#post_form').submit((e)=>{
-        //     e.preventDefault()
-        // })
-    },1200);
+<script>
+    // functions
+    function leaveRoom(){
+        localStorage.clear();
+        client.logout();
+        document.cookie.split(";").forEach(function (cookie) { 
+            document.cookie = cookie.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+        });
+        window.location = '/'
+    }
     function copyCode(){
         room_code = localStorage.getItem("CHANNEL_NAME");
         if(room_code){
             console.log(room_code);
             navigator.clipboard.writeText(room_code);
             Toastify({
-                text: `Copied!`,
+                text: `Copied ✔`,
                 duration: 1600,
                 position:'center',
             }).showToast();
@@ -55,27 +54,36 @@
         else
             window.location='/';
     }
+    function getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+</script>
 
-    let changeNameBtn = document.getElementById('edit-name')
-    changeNameBtn.addEventListener('click', (e)=> {
-        localStorage.removeItem('USERNAME')
-        window.location = '/register';
-    })
-
-    const APP_ID ="a0d4f32c984d4016b53a3856d791ae67";
-    // const APP_ID ="33826ec0b4e245e3a7317da6618287b1";
+<script type="text/javascript">
+    
+    const APP_ID ="33826ec0b4e245e3a7317da6618287b1";
     const token = null;
     const uid = String(Math.floor(Math.random() * 232 ));
     const channel_name_stored =  localStorage.getItem('CHANNEL_NAME');
     const creater =  localStorage.getItem('CREATER');
-    const CHANNEL_NAME = "main"
-    document.cookie=`channel_id=${channel_name_stored}`;
-
+    const CHANNEL_NAME = channel_name_stored;
+    let username = localStorage.getItem('USERNAME')
     let client;
     let channel;
+    
+    let changeNameBtn = document.getElementById('edit-name')
+    
+    changeNameBtn.addEventListener('click', (e)=> {
+        localStorage.removeItem('USERNAME')
+        window.location = '/register';
+    })
+    document.getElementById('msg-box').placeholder=`${username} : Enter message ...`
+    document.cookie=`channel_id=${channel_name_stored}`;
 
-    // localStorage.setItem('CREATED',false);
-    let username = localStorage.getItem('USERNAME')
+
     if(!username) window.location="/";
     
 
@@ -88,20 +96,12 @@
         await channel.join();
 
         channel.on('ChannelMessage', (message, peerId) => {
-            post = JSON.parse(message.text)
+            post = JSON.parse(message.text);
             addMessageToDom(post)
         })
     }
     iniateRTM()
 
-    function leaveRoom(){
-        localStorage.clear();
-        client.logout();
-        document.cookie.split(";").forEach(function (cookie) { 
-            document.cookie = cookie.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
-        });
-        window.location = '/'
-    }
     let form = document.getElementById('post_form')
 
     form.addEventListener('submit', (e) => {
@@ -109,10 +109,14 @@
         let bodyText = e.target.body.value
         console.log(bodyText)
         form.reset()
+        Toastify({
+                text: `Sent`,
+                duration: 1600,
+                position:'center',
+            }).showToast();
 
-        window.location.reload();
         submitData(bodyText)
-        // addMessageToDom(bodyText)
+        addMessageToDom(bodyText)
     })
 
 
@@ -130,39 +134,36 @@
         channel.sendMessage({text:JSON.stringify(data), type:'text'})
 
         console.log('Data:', data )
-        // setInterval()
-        addMessageToDom(data)
     
-        // document.getElementById('post__list'); 
+        addMessageToDom(data)
     }
 
-    function getCookie(name) {
-        let matches = document.cookie.match(new RegExp(
-            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-        ));
-        return matches ? decodeURIComponent(matches[1]) : undefined;
-    }
 
     let addMessageToDom  = async (message) => {
-        let postList = document.getElementById('post__list')
+        let postList = document.getElementById('post__list');
 
-        let timeSince = new Intl.RelativeTimeFormat('en')
+        let timeSince = new Intl.RelativeTimeFormat('en');
 
-        let messageTime = new Date()
+        let messageTime = new Date();
 
         let diff = new Date() - new Date(messageTime)
         let ago = timeSince.format(- diff/(1000*60*60*24), 'seconds')
-        if(message.sender != getCookie('username') &&  message.channel_id === getCookie("channel_id")){
+        if(message.sender != localStorage.getItem('USERNAME') &&  message.channel_id == getCookie("channel_id")){
             let postWrapper = `<div class="post-wrapper">
-                                    <strong>Posted ${ago} - by ${message.sender} ❄</strong>
+                                    ~ <strong>Posted ${ago} - by ${message.sender}  ❄</strong>
+                                    <p class="post__body">${ message.body }</p>
+                                
+                                </div>`
+            postList.insertAdjacentHTML('afterbegin', postWrapper)
+        }
+        else if(message.channel_id == getCookie("channel_id")){
+            let postWrapper = `<div class="post-wrapper">
+                                    ~ ${message.sender} -  ${ago} ago
                                     <p class="post__body">${ message.body }</p>
                                 
                                 </div>`
             postList.insertAdjacentHTML('afterbegin', postWrapper)
         }
     }
-
-
-
 </script>
 {% endblock content %}
