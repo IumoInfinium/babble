@@ -5,53 +5,99 @@
     <div class="jumbotron">
     <div class="row ">
         <div class="column home-container text-bg-danger"> 
-            <div class="d-flex fs-3 justify-content-between text-center">
+            <div class="text-center d-flex fs-3 justify-content-between">
                 <button class="side-button text-center" onclick="window.location='/'">
                     ←
                 </button>
-                <a href="/" class="name">
-                    <div class="p-3">
-                        ☃Babble 
+                <a href="/" class="pr-5 name1">
+                    <div class="p-2">
+                        ☃ Babble 
                     </div>
                 </a>
-                <a class="p-3 github-logo" href="https://github.com/iumoinfinium/agrotry">
-                    <img class="side-button" src="{% static 'images/github-mark-white.png' %}">
+                <a class="p-3 m-1 github-logo" href="https://github.com/iumoinfinium/agrotry">
+                    <img class="side-logo" src="{% static 'images/github-mark-white.png' %}">
                 </a>
-            </div>            <form id="join_form" class="text-center p-2" method="POST">
-                <p>Enter your user name</p>
-                <input class="form-label info-box" type="text" name="username"/>
-                
-                <p>Enter room code</p>
-                <input class="form-lavel info-box" type="text" name="join_code"/>
-                <br><br>
+            </div>           
+            <form id="join_form" class="text-center p-2" method="POST">
+                <div class="m-2">
+                    <div class="home-text mb-1" >Enter your name</div>
+                    <input class="form-label info-box text-center" type="text" name="username" placeholder="You name here ~~" required/>
+                    <div class="tooltipp">
+                        <img class="help-symbol" src="{% static 'images/question-mark.png'%}">
+                        <span class="tooltiptext">
+                            With name people will be able to see who are interacting with.
+                        </span>
+                    </div>
+                </div>
+                <div class="m-2">
+                    <p class="home-text mb-1">Enter room code</p>
+                    <input class="form-lavel info-box text-center" type="text" name="join_code" placeholder="You room code here ~~" required/>
+                    <div class="tooltipp">
+                        <img class="help-symbol" src="{% static 'images/question-mark.png'%}">
+                        <span class="tooltiptext">
+                            Don't know room code ? Ask the room creater to give you.
+                        </span>
+                    </div>                      
+                </div>
+                <br>
                 <button class="go-button" type="submit">Join Room</button>
             </form>
         </div>
     </div>
     </div>
 
-
+    <script>
+        async function postData(url = '', data = {}) {
+            
+            const response = await fetch(url, {
+                method: 'POST', 
+                mode: 'cors', 
+                cache: 'no-cache', 
+                credentials: 'same-origin', 
+                headers: {
+                'Content-Type': 'application/json'    
+                },
+                redirect: 'follow', 
+                referrerPolicy: 'no-referrer', 
+                body: JSON.stringify(data) 
+            });
+            return response.json(); 
+        }
+    </script>
     <script>
         let form = document.getElementById('join_form')
         
         form.addEventListener('submit', (e) => {
             e.preventDefault()
-            console.log("values!!");
-            let username = e.target.username.value;
-            let join_code = e.target.join_code.value;
+            let username = e.target.username.value.trim();
+            let join_code = e.target.join_code.value.trim();
 
-            console.log("--"+username+"---");
-            console.log("--"+join_code+"---");
-            localStorage.setItem('USERNAME', username)
-            localStorage.setItem('CHANNEL_NAME', join_code)
-            localStorage.setItem('CREATER', false)
-            document.cookie=`channel_id=${join_code}`;
-            const channel_name = localStorage.getItem('CHANNEL_NAME');
+            let roomResponse;
+            postData('/check/',{'join_code':join_code})
+            .then((data)=>{
+                // console.log(data);
+                if(data['result'] === 'true'){
+                    
+                    localStorage.setItem('USERNAME', username)
+                    localStorage.setItem('CHANNEL_NAME', join_code)
+                    localStorage.setItem('CREATER', false)
+                    
+                    document.cookie=`channel_id=${join_code}`;
+                    const channel_name = localStorage.getItem('CHANNEL_NAME');
+                    
+                    if (username && channel_name){
+                        window.location = '/feed';
+                    }
+                }
+                else{
+                    Toastify({
+                        text: `Room with this code doesn't exists!`,
+                        duration: 2000,
+                        position:'center',
+                    }).showToast();
+                }
+            });
             
-            console.log(channel_name);
-            if (username && channel_name){
-                window.location = '/feed';
-            }
         })
     </script>
 

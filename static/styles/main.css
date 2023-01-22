@@ -35,6 +35,8 @@ button{
     font-family: 'Kurale';
     padding :1em;
     margin-top:1em;
+    border-top-left-radius: 1em ;
+    border-top-right-radius: 1em ;
 }
 .sender-info{
     padding: .1em;
@@ -72,10 +74,43 @@ button{
     border-radius: 0px 0px 10px 10px;
     padding: 0.6em;
 }
+
 .myform-button:hover{
     /* background-color: rgb(1
     16, 116, 234); */
     background-color:rebeccapurple;
     color:white;
     /* color:darkslategrey; */
+}
+.tooltipp {
+    position: relative;
+    display: inline-block;
+    /* margin: 0.1em; */
+  }
+  
+  .tooltipp .tooltiptext {
+    visibility: hidden;
+    width: 15em;
+    background-color:#8b4f80; 
+    color: #fff;
+    text-align: center;
+    border-radius: 1em;
+    padding: 0.6em;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+  }
+  
+  .tooltipp:hover .tooltiptext {
+    visibility: visible;
+  }
+
+.help-symbol{
+    width:1.5em;
+    height: 1.5em;
+    color:red;
 }

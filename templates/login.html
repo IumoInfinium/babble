@@ -5,48 +5,73 @@
     <div class="row">
         <div class="column home-container text-bg-danger"> 
             <div class="d-flex fs-3 justify-content-between text-center">
-            <button class="side-button text-center" onclick="window.location='/'">
-                    ←
+                <button class="side-button text-center" onclick="window.location='/'">
+                        ←
                 </button>
-                <a href="/" class="name">
-                    <div class="p-3">
-                        ☃Babble 
+                <a href="/" class="pr-5 name1">
+                    <div class="p-2">
+                        ☃ Babble 
                     </div>
                 </a>
-                <a class="p-3 github-logo" href="https://github.com/iumoinfinium/agrotry">
-                    <img class="side-logo" src="{% static 'images/github-mark-white.png' %}">
+                <a class="p-3 m-1 github-logo" href="https://github.com/iumoinfinium/agrotry">
+                    <abbr title="Don't know room code? Ask it from the creater of the room">
+                        <img class="side-logo" data-tooltip="helo?" src="{% static 'images/github-mark-white.png' %}">
+                    </abbr>
                 </a>
             </div>
             
             <form id="login_form" class="text-center p-2">
-                <p class="info-label">Enter your user name</p>
-                <input class="form-label info-box" type="text" name="username" placeholder="You name goes here ~..">
+                <p class="info-label home-text">Enter your name</p>
+                <input class="form-label info-box text-center" type="text" name="username" placeholder="You name goes here ~~" required>
+                <div class="tooltipp">
+                    <img class="help-symbol" src="{% static 'images/question-mark.png'%}">
+                    <span class="tooltiptext">
+                        With name people will be able to see who are interacting with.
+                    </span>
+                </div>  
                 <br>
-                <button class="go-button" type="submit">Create Room</button>
+                <button class="go-button" id="create-button" type="submit">Join Room</button>
             </form>
         </div>
     </div>
     </div>
 
-
     <script>
+       
         let form = document.getElementById('login_form')
         
         form.addEventListener('submit', (e) => {
             e.preventDefault()
-            let username = e.target.username.value;
-            localStorage.setItem('USERNAME', username);
-            localStorage.setItem('CREATER', true);
-            const channel_name = localStorage.getItem('CHANNEL_NAME');
-            console.log("channel_id =", channel_name);
-            document.cookie=`channel_id=${channel_name}`;
-            console.log(channel_name);
-            if (username && channel_name){
-                window.location = '/feed';
+            
+
+            let channel_name;
+            if(!localStorage.getItem('CHANNEL_NAME')){
+                channel_name  = generateID(16);
+                localStorage.setItem('CHANNEL_NAME',channel_name);
             }
             else {
-            window.location = '/feed';
+                channel_name = localStorage.getItem('CHANNEL_NAME')
             }
+            let username = e.target.username.value.trim();
+            localStorage.setItem('USERNAME', username);
+
+            document.cookie=`channel_id=${channel_name}`;
+
+            const room_info ={
+                created_by : username,
+                room_code : channel_name
+            }
+            
+            postData('/create_room/',room_info)
+            .then((data)=>{
+                if(data['result'] === 'true'){
+                    window.location = '/feed';
+                }
+                else{
+                    window.location = '/register'
+                }
+            })
+
         })
     </script>
 

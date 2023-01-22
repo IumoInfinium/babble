@@ -16,6 +16,7 @@
     border: 2px dashed purple;
     text-decoration: none;
     color:white;
+    margin-left:
 }
 .name:hover{
     background-color: tomato;
@@ -24,6 +25,7 @@
     margin-left: 66px;
     border-radius: .1em 0.1em 1.5em 1.5em;
     border: 2px dashed purple;
+    border-top: 0;
     text-decoration: none;
     color:white;
 }
@@ -37,9 +39,8 @@
 .go-button{
     width: auto;
     height: auto;
-    border-radius: 2EM 1.5EM 2EM 2EM;
+    border-radius: 2em 1.5em 2em 2em;
     padding: 1em;
-    text-align: center;
 }
 
 .go-button:hover{
@@ -54,11 +55,11 @@
     border-radius: 1em 1em 1em 1em;
 }
 .side-button{
-    width:2em;
-    height:2em;
-    padding: 2px;
+    width:1.5em;
+    height:1.5em;
+    padding: 0.5px;
     border-radius: 1em 1em 1em 1em;
-    background-color:pink;
+    background-color:#24a0ed;
     margin-top:0.5em;
 }
 

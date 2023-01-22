@@ -107,11 +107,11 @@
     form.addEventListener('submit', (e) => {
         e.preventDefault()
         let bodyText = e.target.body.value
-        console.log(bodyText)
+        // console.log(bodyText)
         form.reset()
         Toastify({
                 text: `Sent`,
-                duration: 1600,
+                duration: 1000,
                 position:'center',
             }).showToast();
 
@@ -133,7 +133,7 @@
         data['channel_id'] = channel_name_stored;
         channel.sendMessage({text:JSON.stringify(data), type:'text'})
 
-        console.log('Data:', data )
+        // console.log('Data:', data )
     
         addMessageToDom(data)
     }

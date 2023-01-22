@@ -6,5 +6,7 @@ urlpatterns = [
     path('feed/', views.public_feed, name="feed"),
     path('register/', views.register, name="register"),
     path('join/',views.join,name="join"),
-    path('add/', views.add_post)
+    path('create_room/', views.create_room),
+    path('add/', views.add_post),
+    path('check/', views.check_code)
 ]
