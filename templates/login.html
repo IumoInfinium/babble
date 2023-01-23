@@ -45,12 +45,12 @@
             
 
             let channel_name;
-            if(!localStorage.getItem('CHANNEL_NAME')){
+            if(!localStorage.getItem('CHANNEL_NAME').trim()){
                 channel_name  = generateID(16);
                 localStorage.setItem('CHANNEL_NAME',channel_name);
             }
             else {
-                channel_name = localStorage.getItem('CHANNEL_NAME')
+                channel_name = localStorage.getItem('CHANNEL_NAME').trim();
             }
             let username = e.target.username.value.trim();
             localStorage.setItem('USERNAME', username);
@@ -64,7 +64,7 @@
             
             postData('/create_room/',room_info)
             .then((data)=>{
-                console.log(data)
+                // console.log(data)
                 if(data['result'] === 'true'){
                     window.location = '/feed';
                 }
@@ -72,7 +72,6 @@
                     window.location = '/register'
                 }
             })
-
         })
     </script>
 

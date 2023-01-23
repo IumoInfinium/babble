@@ -6,7 +6,7 @@
 <section class="main--container">
     <form id="post_form">
         <!-- {% csrf_token %} -->
-        <input class="msg-box" type="text" name="body" id="msg-box" placeholder="Enter message..." />
+        <input class="msg-box" type="text" name="body" id="msg-box" placeholder="Enter message..." required/>
     </form>
         <div class="d-flex justify-content-between">
             <button class="form-label myform-button" id="edit-name" for="msg-box">Change Username</button>
@@ -41,7 +41,7 @@
         window.location = '/'
     }
     function copyCode(){
-        room_code = localStorage.getItem("CHANNEL_NAME");
+        room_code = localStorage.getItem("CHANNEL_NAME").trim();
         if(room_code){
             console.log(room_code);
             navigator.clipboard.writeText(room_code);
@@ -67,10 +67,11 @@
     const APP_ID ="33826ec0b4e245e3a7317da6618287b1";
     const token = null;
     const uid = String(Math.floor(Math.random() * 232 ));
-    const channel_name_stored =  localStorage.getItem('CHANNEL_NAME');
-    const creater =  localStorage.getItem('CREATER');
+    const channel_name_stored =  localStorage.getItem('CHANNEL_NAME').trim();
+    const creater =  localStorage.getItem('CREATER').trim();
     const CHANNEL_NAME = channel_name_stored;
-    let username = localStorage.getItem('USERNAME')
+    let username = localStorage.getItem('USERNAME').trim();
+
     let client;
     let channel;
     
@@ -106,14 +107,22 @@
 
     form.addEventListener('submit', (e) => {
         e.preventDefault()
-        let bodyText = e.target.body.value
+        let bodyText = e.target.body.value.trim();
+        if(bodyText == '') {
+            Toastify({
+                text: `Enter a message to send !`,
+                duration: 1000,
+                position:'center',
+            }).showToast();
+            return;
+        }
         // console.log(bodyText)
         form.reset()
         Toastify({
                 text: `Sent`,
                 duration: 1000,
                 position:'center',
-            }).showToast();
+        }).showToast();
 
         submitData(bodyText)
         addMessageToDom(bodyText)
@@ -148,7 +157,8 @@
 
         let diff = new Date() - new Date(messageTime)
         let ago = timeSince.format(- diff/(1000*60*60*24), 'seconds')
-        if(message.sender != localStorage.getItem('USERNAME') &&  message.channel_id == getCookie("channel_id")){
+
+        if(message.sender != localStorage.getItem('USERNAME').trim() &&  message.channel_id == getCookie("channel_id").trim()){
             let postWrapper = `<div class="post-wrapper">
                                     ~ <strong>Posted ${ago} - by ${message.sender}  ❄</strong>
                                     <p class="post__body">${ message.body }</p>
