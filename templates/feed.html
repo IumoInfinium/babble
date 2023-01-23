@@ -11,7 +11,7 @@
         <div class="d-flex justify-content-between">
             <button class="form-label myform-button" id="edit-name" for="msg-box">Change Username</button>
             <button class="form-label myform-button exit-button"  onclick="leaveRoom()">
-                Leave room!
+                Leave room
             </button>
             <button class="form-label myform-button" id="edit-name" for="msg-box" onclick="copyCode()">Copy Room code</button>
         </div>
@@ -68,9 +68,9 @@
     const token = null;
     const uid = String(Math.floor(Math.random() * 232 ));
     const channel_name_stored =  localStorage.getItem('CHANNEL_NAME').trim();
-    const creater =  localStorage.getItem('CREATER').trim();
+    const creater =  localStorage.getItem('CREATER');
     const CHANNEL_NAME = channel_name_stored;
-    let username = localStorage.getItem('USERNAME').trim();
+    let username = localStorage.getItem('USERNAME');
 
     let client;
     let channel;

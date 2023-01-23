@@ -45,12 +45,12 @@
             
 
             let channel_name;
-            if(!localStorage.getItem('CHANNEL_NAME').trim()){
+            if(!localStorage.getItem('CHANNEL_NAME')){
                 channel_name  = generateID(16);
                 localStorage.setItem('CHANNEL_NAME',channel_name);
             }
             else {
-                channel_name = localStorage.getItem('CHANNEL_NAME').trim();
+                channel_name = localStorage.getItem('CHANNEL_NAME');
             }
             let username = e.target.username.value.trim();
             localStorage.setItem('USERNAME', username);
